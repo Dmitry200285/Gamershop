@@ -1,0 +1,10 @@
+@media screen and (max-device-width: 414px) {
+
+.payment__title{
+    font-size: 46px!important;
+  }
+  .reasons__items{
+    grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(3, 1fr) 0 1fr;
+  }
+}
