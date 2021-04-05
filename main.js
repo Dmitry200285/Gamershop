@@ -79,3 +79,16 @@ const burger__menu = document.querySelector('.burger__menu');
 burger.addEventListener("click",(e)=>{
   burger__menu.classList.toggle("ddd5");
 });
+
+function submitResult() {
+    var form = this;
+    var name = document.getElementsByName('user_name')[0].value;
+    var password = document.getElementsByName('user_password')[0].value;
+    if(name!='' && password!='' && name == 'admin' && password == 'admin'){
+        form.submit();
+    }
+    else {
+        alert('Вы ввели неправильные данные');
+        return false;
+    }
+}

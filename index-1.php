@@ -1,3 +1,20 @@
+<?php
+if (!isset($_SESSION))
+{
+    session_start();
+}
+if (isset($_GET['cabinet_submit'])) {
+    $name = $_GET['user_name'];
+    $password = $_GET['user_password'];
+    if ($name == 'admin' && $password == 'admin') {
+        $_SESSION['admin'] = true;
+    }
+}
+if (isset($_GET['cabinet_logout'])) {
+    session_destroy();
+    header('Location: /index-1.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -17,11 +34,14 @@
   <header class="header">
     <div class="content header__content" id="#content2">
       <div class="header__left" id="frsthead">
-        <div class="header__logo"><a href="index.html"><img src="img\logo.png" alt=""></a></div>
+        <div class="header__logo"><a href="index.php"><img src="img\logo.png" alt=""></a></div>
         <div class="header__title">
           <p class="title">Gamershop</p>
           <p class="under__title">онлайн магазин игр
           </p>
+          <?php if (isset($_SESSION['admin'])) :?>
+             <p>Поздравляем, вы успешно авторизовались</p>
+          <?php endif;?>
         </div>
 
       </div>
@@ -30,13 +50,13 @@
       </div>
       <nav class="header__navbar">
         <div class="header__navitem">
-          <a class="header__nav__a catalog" href="second__page.html">Каталог товаров</a>
+          <a class="header__nav__a catalog" href="second__page.php">Каталог товаров</a>
         </div>
         <div class="header__navitem">
           <a class="header__nav__a" href="">Скидки</a>
         </div>
         <div class="header__navitem">
-          <a class="header__nav__a" href="third__page.html">О нас</a>
+          <a class="header__nav__a" href="third__page.php">О нас</a>
         </div>
         <div class="header__navitem">
           <a class="header__nav__a" href="">Мои покупки</a>
@@ -57,9 +77,9 @@
 
     </div>
     <div class="burger__menu">
-      <div class="burger__item"><a href="second__page.html" class="burger__item__text">Каталог товаров</a></div>
+      <div class="burger__item"><a href="second__page.php" class="burger__item__text">Каталог товаров</a></div>
       <div class="burger__item"><a href="" class="burger__item__text">Скидки</a></div>
-      <div class="burger__item"><a href="third__page.html" class="burger__item__text">Поддержка</a></div>
+      <div class="burger__item"><a href="third__page.php" class="burger__item__text">Поддержка</a></div>
       <div class="burger__item"><a href="" class="burger__item__text">Мои покупки</a></div>
     </div>
   </header>
@@ -469,7 +489,6 @@
     </div>
 
   </div>
-  </div>
   <div class="future__game">
     <div class="content">
       <div class="future__game__title">
@@ -501,21 +520,38 @@
       </div>
     </div>
   </div>
-  </div>
   <footer class="footer">
     <div class="content">
-      <p class="footer__title">
-        Что такое<br> Gamershop
-      </p>
-      <p class="footer__text">
-        Gamersop - магазин для настоящих геймеров. В нашем магазине вы сможете гарантированно
-        приобрести ключи к играм от Steam, Uplay, Battle.net и прочих популярних игровых платформ.
-        Наш магазин делает все для того, чтобы ваши покупки проходили быстро, с максимальным
-        удобством и безопасностю, а цены были максимально доступными. <br><br>
-        Для совершения покупки вам достаточно лишь указать адрес электронный адрес при оформлении
-        заказа и выбрать удобный вам способ оплати. После этого вам на почту прийдет пароль доступа в
-        личний кабинет, в котором вы получите ключ активации
-      </p>
+      <div class="footer-title">
+        <p class="footer__title" >
+          Что такое<br> Gamershop
+        </p>
+        <p class="footer__text">
+          Gamersop - магазин для настоящих геймеров. В нашем магазине вы сможете гарантированно
+          приобрести ключи к играм от Steam, Uplay, Battle.net и прочих популярних игровых платформ.
+          Наш магазин делает все для того, чтобы ваши покупки проходили быстро, с максимальным
+          удобством и безопасностю, а цены были максимально доступными. <br><br>
+          Для совершения покупки вам достаточно лишь указать адрес электронный адрес при оформлении
+          заказа и выбрать удобный вам способ оплати. После этого вам на почту прийдет пароль доступа в
+          личний кабинет, в котором вы получите ключ активации
+        </p>
+      </div>
+      <div class="form-admin">
+          <?php if (empty($_SESSION['admin'])) :?>
+          <form action="" method="GET" onsubmit="return submitResult();">
+              <label>Имя</label>
+              <input class="admin_input" type="text" name="user_name" placeholder="Имя">
+              <label>Пароль</label>
+              <input class="admin_input" name="user_password" placeholder="Пароль">
+              <button class="admin_submit" type="submit" name="cabinet_submit" value="1">Войти</button>
+          </form>
+          <?endif;?>
+          <?php if (isset($_SESSION['admin'])) :?>
+          <form action="" method="GET">
+               <button class="admin_submit" type="submit" name="cabinet_logout" value="1">Вийти из аккаунта</button>
+          </form>
+          <?endif;?>
+      </div>
     </div>
   </footer>
   <script src="main.js"></script>
